@@ -1,0 +1,348 @@
+/* ======== TEMA CLARO ELEGANTE (SHOWROOM) ======== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap');
+
+:root {
+  /* Paleta de colores principal (de tu imagen) */
+  --accent-primary: #5A273B;      /* Borgoña profundo */
+  --accent-secondary: #7E5E63;    /* Malva apagado */
+  --subtle-accent-bg: #F5F1F1;    /* Un fondo muy sutil derivado del Taupe */
+
+  /* Paleta de soporte para el tema claro */
+  --bg: #F9F9F9;                  /* Blanco roto para el fondo general */
+  --surface: #FFFFFF;               /* Blanco puro para las tarjetas */
+  --text-primary: #222222;          /* Texto oscuro de alto contraste */
+  --text-secondary: var(--accent-secondary); /* Usamos el malva para texto secundario */
+  --border-color: #EAEAEA;        /* Un borde gris muy claro */
+
+  /* Layout y Efectos */
+  --radius: 12px;
+  --max-w: 1200px;
+  --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.07); /* Sombra suave para tema claro */
+}
+
+/* --- Base y Tipografía --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Layout --- */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Header --- */
+header {
+  padding: 1.5rem 0;
+  background-color: hsla(0, 0%, 100%, 0.7); /* Efecto cristalino */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header nav.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--accent-primary); /* El borgoña destaca la marca */
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.header-links a {
+  font-weight: 500;
+  color: var(--text-secondary); /* Malva para los enlaces */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-left: 0.5rem;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.header-links a:hover {
+  background-color: var(--subtle-accent-bg);
+  color: var(--accent-primary);
+}
+
+/* --- Contenido Principal --- */
+.main-wrapper {
+  padding: 4rem 0;
+}
+
+.page-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--accent-primary); /* Título principal en borgoña */
+  margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary); /* Subtítulo en malva */
+  margin-bottom: 3rem;
+}
+
+/* --- Tarjetas de Estadísticas --- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat {
+  background-color: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.stat:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent-secondary); /* El borde se acentúa al pasar el mouse */
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  background-color: var(--subtle-accent-bg);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.stat-icon svg {
+  color: var(--accent-secondary);
+}
+
+.stat h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+}
+
+.stat .value {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat .stat-link {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 1rem;
+  display: inline-block;
+  transition: color var(--transition);
+}
+
+.stat .stat-link:hover {
+  color: var(--accent-primary);
+}
+
+/* --- Tarjeta General y Botones --- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-top: 3rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 2.5rem;
+  border: 1px dashed #D1C9C8; /* Borde punteado con un tono de la paleta */
+  border-radius: 8px;
+  color: var(--text-secondary);
+  background-color: var(--subtle-accent-bg);
+}
+
+.actions {
+  display: flex;
+  margin-top: 1.5rem;
+}
+
+.btn-primary {
+  background: var(--accent-primary);
+  color: #fff;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 15px rgba(90, 39, 59, 0.2);
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  background-color: #4F2234; /* Un borgoña ligeramente más oscuro */
+  box-shadow: 0 8px 25px rgba(90, 39, 59, 0.3);
+}
+/* ======== ESTILOS PARA TABLAS DE CONTENIDO ======== */
+
+/* Contenedor del encabezado de página para alinear título y botón */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Para que se adapte en móviles */
+    gap: 1rem;
+}
+
+/* Estilo principal de la tabla */
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.content-table thead th {
+    background-color: var(--subtle-accent-bg);
+    color: var(--accent-primary);
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+}
+
+.content-table tbody td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.content-table tbody tr:last-child td {
+    border-bottom: none; /* Elimina la línea del último elemento */
+}
+
+.content-table tbody tr:hover td {
+    background-color: var(--subtle-accent-bg);
+}
+
+/* Estilos para los enlaces de acciones (Editar, Borrar, etc.) */
+.table-actions {
+    text-align: right;
+    white-space: nowrap; /* Evita que los enlaces se partan en dos líneas */
+}
+
+.table-actions a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    transition: color var(--transition);
+}
+
+.table-actions a:hover {
+    color: var(--accent-primary);
+    text-decoration: underline;
+}
+
+.table-actions a:last-child {
+    margin-right: 0;
+}
+/* ======== ESTILOS PARA FORMULARIOS ======== */
+
+/* Layout de rejilla para los campos del formulario */
+.form-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para las etiquetas (labels) */
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* Estilo para los campos de entrada (inputs) */
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    background-color: var(--bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px hsla(339, 41%, 25%, 0.2); /* Sombra de foco con el color borgoña */
+}
+
+/* Botón secundario para acciones como "Cancelar" */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 2rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.btn-secondary:hover {
+    background-color: var(--subtle-accent-bg);
+    color: var(--accent-primary);
+}
+
+/* Estilo para los mensajes de error de validación */
+.text-danger {
+    color: #cb3c3c;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+}

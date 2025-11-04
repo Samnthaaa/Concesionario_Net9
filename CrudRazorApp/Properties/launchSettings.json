@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "CrudRazorApp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:25912;http://localhost:25913"
+    }
+  }
+}

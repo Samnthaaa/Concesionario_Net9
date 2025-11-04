@@ -1,0 +1,146 @@
+﻿@page "{id:int}"
+@model CrudRazorApp.Pages.Reservas.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Reserva";
+}
+
+<h1 class="page-title">Eliminar Reserva</h1>
+<p class="page-subtitle" style="color: #cb3c3c;">Esta acción no se puede deshacer.</p>
+
+@if (Model.Reserva != null)
+{
+    <div class="card" style="max-width: 700px;">
+        <div class="delete-warning">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #cb3c3c;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h3>¿Estás seguro de que deseas eliminar esta reserva?</h3>
+            <p>Se eliminará la reserva <strong>#@Model.Reserva.Id</strong> de forma permanente.</p>
+        </div>
+
+        <div class="details-summary">
+            <div class="summary-row">
+                <div class="summary-item">
+                    <span class="summary-label">Auto:</span>
+                    <span class="summary-value">@Model.Reserva.Auto?.Marca @Model.Reserva.Auto?.Modelo (@Model.Reserva.Auto?.Placa)</span>
+                </div>
+            </div>
+
+            <div class="summary-row">
+                <div class="summary-item">
+                    <span class="summary-label">Conductor:</span>
+                    <span class="summary-value">@Model.Reserva.Conductor?.Nombre @Model.Reserva.Conductor?.Apellido</span>
+                </div>
+            </div>
+
+            <div class="summary-row">
+                <div class="summary-item">
+                    <span class="summary-label">Fecha de Inicio:</span>
+                    <span class="summary-value">@Model.Reserva.FechaInicio.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+            </div>
+
+            <div class="summary-row">
+                <div class="summary-item">
+                    <span class="summary-label">Fecha de Fin:</span>
+                    <span class="summary-value">@Model.Reserva.FechaFin.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+            </div>
+        </div>
+
+        <form method="post">
+            <div class="actions" style="margin-top: 2rem;">
+                <button type="submit" class="btn-danger">Confirmar Eliminación</button>
+                <a asp-page="./Index" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div class="card">
+        <p>No se encontró la reserva.</p>
+        <a asp-page="./Index" class="btn-secondary">Volver</a>
+    </div>
+}
+
+<style>
+    .delete-warning {
+        text-align: center;
+        padding: 2rem;
+        background-color: #FEF2F2;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+        .delete-warning svg {
+            margin-bottom: 1rem;
+        }
+
+        .delete-warning h3 {
+            color: #991B1B;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .delete-warning p {
+            color: #7F1D1D;
+            margin: 0;
+        }
+
+    .details-summary {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        background-color: var(--bg);
+    }
+
+    .summary-row {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .summary-label {
+        font-weight: 600;
+        color: var(--text-secondary);
+        flex-shrink: 0;
+    }
+
+    .summary-value {
+        color: var(--text-primary);
+        text-align: right;
+    }
+
+    .btn-danger {
+        background: #DC2626;
+        color: #fff;
+        padding: 0.85rem 2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+        transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+    }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            background-color: #B91C1C;
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+        }
+</style>

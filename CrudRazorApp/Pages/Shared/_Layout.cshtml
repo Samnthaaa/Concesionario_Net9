@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Concesionario</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a class="header-brand" asp-area="" asp-page="/Index">Concesionario</a>
+            <div class="header-links">
+                <a asp-area="" asp-page="/Index">Inicio</a>
+                <a asp-area="" asp-page="/Autos/Index">Autos</a>
+                <a asp-area="" asp-page="/Conductores/Index">Conductores</a>
+                <a asp-area="" asp-page="/Reservas/Index">Reservas</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-wrapper">
+        <main role="main" class="container">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - Concesionario. Todos los derechos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Privacidad</a>
+                <a href="#">Términos</a>
+                <a href="#">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

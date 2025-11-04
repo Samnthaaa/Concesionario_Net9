@@ -1,0 +1,15 @@
+﻿@page "{id:int}"
+@model CrudRazorApp.Pages.Autos.DeleteModel
+
+<h1>Eliminar Auto</h1>
+
+@if (Model.Auto != null)
+{
+  <div>
+    <p>¿Eliminar @Model.Auto.Marca @Model.Auto.Modelo (Año @Model.Auto.Anio)?</p>
+    <form method="post">
+      <button type="submit">Confirmar</button>
+      <a asp-page="./Index">Cancelar</a>
+    </form>
+  </div>
+}

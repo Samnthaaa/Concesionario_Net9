@@ -1,0 +1,104 @@
+﻿@page "{id:int}"
+@model CrudRazorApp.Pages.Conductores.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalles del Conductor";
+}
+
+<h1 class="page-title">Detalles del Conductor</h1>
+<p class="page-subtitle">Información completa del conductor seleccionado.</p>
+
+@if (Model.Conductor != null)
+{
+    <div class="card" style="max-width: 800px;">
+        <div class="details-grid">
+            <div class="detail-item">
+                <span class="detail-label">Nombre Completo</span>
+                <span class="detail-value">@Model.Conductor.Nombre @Model.Conductor.Apellido</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Fecha de Nacimiento</span>
+                <span class="detail-value">
+                    @if (Model.Conductor.FechaNacimiento.HasValue)
+                    {
+                        @Model.Conductor.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+                    }
+                    else
+                    {
+                        <span style="color: var(--text-secondary);">No registrada</span>
+                    }
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Teléfono</span>
+                <span class="detail-value">@(Model.Conductor.Telefono?.ToString() ?? "No registrado")</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Email</span>
+                <span class="detail-value">@(Model.Conductor.Email ?? "No registrado")</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Licencia</span>
+                <span class="detail-value">@(Model.Conductor.Licencia ?? "No registrada")</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Fecha de Contratación</span>
+                <span class="detail-value">
+                    @if (Model.Conductor.FechaContratacion.HasValue)
+                    {
+                        @Model.Conductor.FechaContratacion.Value.ToString("dd/MM/yyyy")
+                    }
+                    else
+                    {
+                        <span style="color: var(--text-secondary);">No registrada</span>
+                    }
+                </span>
+            </div>
+        </div>
+
+        <div class="actions" style="margin-top: 2rem;">
+            <a asp-page="./Edit" asp-route-id="@Model.Conductor.Id" class="btn-primary">Editar</a>
+            <a asp-page="./Index" class="btn-secondary">Volver al Listado</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <p>No se encontró el conductor.</p>
+        <a asp-page="./Index" class="btn-secondary">Volver</a>
+    </div>
+}
+
+<style>
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .detail-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+</style>

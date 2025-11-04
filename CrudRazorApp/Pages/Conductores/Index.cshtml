@@ -1,0 +1,43 @@
+﻿@page
+@model CrudRazorApp.Pages.Conductores.IndexModel
+
+@{
+    ViewData["Title"] = "Conductores";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Gestión de Conductores</h1>
+    <div class="actions">
+        <a asp-page="./Create" class="btn-primary">
+            &#43; Registrar Conductor Nuevo
+        </a>
+    </div>
+</div>
+
+<div class="card" style="padding: 0; margin-top: 2rem;">
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th style="text-align: right;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.Conductores)
+            {
+                <tr>
+                    <td>@c.Nombre</td>
+                    <td>@c.Apellido</td>
+                    <td>@c.Telefono</td>
+                    <td class="table-actions">
+                        <a asp-page="./Edit" asp-route-id="@c.Id">Editar</a>
+                        <a asp-page="./Details" asp-route-id="@c.Id">Detalles</a>
+                        <a asp-page="./Delete" asp-route-id="@c.Id">Borrar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,15 @@
+﻿@page "{id:int}"
+@model CrudRazorApp.Pages.Autos.DetailsModel
+
+<h1>Detalles del Auto</h1>
+
+<div>
+  <dl>
+    <dt>Marca</dt><dd>@Model.Auto?.Marca</dd>
+    <dt>Modelo</dt><dd>@Model.Auto?.Modelo</dd>
+    <dt>Año</dt><dd>@Model.Auto?.Anio</dd>
+    <dt>Color</dt><dd>@Model.Auto?.Color</dd>
+    <dt>Placa</dt><dd>@Model.Auto?.Placa</dd>
+  </dl>
+</div>
+<a asp-page="./Index">Volver</a>

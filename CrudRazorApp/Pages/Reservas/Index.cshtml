@@ -1,0 +1,45 @@
+@page
+@model CrudRazorApp.Pages.Reservas.IndexModel
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Gestión de Reservas</h1>
+    <div class="actions">
+        <a asp-page="./Create" class="btn-primary">
+            &#43; Registrar Nueva Reserva
+        </a>
+    </div>
+</div>
+
+<div class="card" style="padding: 0; margin-top: 2rem;">
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th>Auto</th>
+                <th>Conductor</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th style="text-align: right;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Reservas)
+            {
+                <tr>
+                    <td>@r.Auto?.Marca @r.Auto?.Modelo (@r.Auto?.Placa)</td>
+                    <td>@r.Conductor?.Nombre @r.Conductor?.Apellido</td>
+                    <td>@r.FechaInicio.ToString("g")</td>
+                    <td>@r.FechaFin.ToString("g")</td>
+                    <td class="table-actions">
+                        <a asp-page="./Edit" asp-route-id="@r.Id">Editar</a>
+                        <a asp-page="./Details" asp-route-id="@r.Id">Detalles</a>
+                        <a asp-page="./Delete" asp-route-id="@r.Id">Borrar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
