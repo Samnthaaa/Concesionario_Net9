@@ -18,11 +18,21 @@ namespace CrudRazorApp.Pages.Autos
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-            _context.Autos.Add(Auto);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.Autos.Add(Auto);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index", new { success = true, message = $"El auto {Auto.Marca} {Auto.Modelo} se registró exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("./Index", new { error = true, message = "No se pudo registrar el auto. Intenta de nuevo." });
+            }
         }
     }
 }

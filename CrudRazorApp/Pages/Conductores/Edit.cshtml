@@ -5,6 +5,16 @@
     ViewData["Title"] = "Editar Conductor";
 }
 
+<div class="back-button-container">
+    <a asp-page="./Index" class="back-button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver al listado
+    </a>
+</div>
+
 <h1 class="page-title">Editar Conductor</h1>
 <p class="page-subtitle">Actualiza la información del conductor.</p>
 
@@ -58,7 +68,12 @@
         </div>
 
         <div class="actions" style="margin-top: 2rem;">
-            <button type="submit" class="btn-primary">Guardar Cambios</button>
+            <button type="submit" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Guardar Cambios
+            </button>
             <a class="btn-secondary" asp-page="./Index">Cancelar</a>
         </div>
     </form>

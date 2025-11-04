@@ -5,41 +5,172 @@
     ViewData["Title"] = "Reservas";
 }
 
+@if (!string.IsNullOrEmpty(Request.Query["message"].ToString()))
+{
+    var isError = Request.Query["error"] == "True";
+    <div class="alert @(isError ? "alert-error" : "alert-success") alert-dismissible">
+        @Request.Query["message"]
+        <button type="button" class="close-button" onclick="this.parentElement.style.display='none'">&times;</button>
+    </div>
+}
+
 <div class="page-header">
-    <h1 class="page-title">Gestión de Reservas</h1>
+    <div>
+        <h1 class="page-title">Gestión de Reservas</h1>
+        <p class="page-subtitle">Administra las reservas de vehículos</p>
+    </div>
     <div class="actions">
+        <button type="button" id="btnDescargarPdf" class="btn-secondary" style="display:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Descargar PDF (<span id="countSelected">0</span>)
+        </button>
         <a asp-page="./Create" class="btn-primary">
-            &#43; Registrar Nueva Reserva
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Registrar Nueva Reserva
         </a>
     </div>
 </div>
 
-<div class="card" style="padding: 0; margin-top: 2rem;">
-    <table class="content-table">
-        <thead>
-            <tr>
-                <th>Auto</th>
-                <th>Conductor</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
-                <th style="text-align: right;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var r in Model.Reservas)
-            {
-                <tr>
-                    <td>@r.Auto?.Marca @r.Auto?.Modelo (@r.Auto?.Placa)</td>
-                    <td>@r.Conductor?.Nombre @r.Conductor?.Apellido</td>
-                    <td>@r.FechaInicio.ToString("g")</td>
-                    <td>@r.FechaFin.ToString("g")</td>
-                    <td class="table-actions">
-                        <a asp-page="./Edit" asp-route-id="@r.Id">Editar</a>
-                        <a asp-page="./Details" asp-route-id="@r.Id">Detalles</a>
-                        <a asp-page="./Delete" asp-route-id="@r.Id">Borrar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="search-container">
+    <div class="search-box">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Buscar por auto, conductor o fecha..." class="search-input" />
+    </div>
 </div>
+
+<div class="card" style="padding: 0; margin-top: 2rem;">
+    <form method="post" asp-page-handler="DownloadPdf" id="pdfForm">
+        <table class="content-table" id="reservasTable">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">
+                        <input type="checkbox" id="selectAll" style="cursor: pointer;" />
+                    </th>
+                    <th>Auto</th>
+                    <th>Conductor</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Fin</th>
+                    <th style="text-align: right;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.Reservas)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedIds" value="@r.Id" class="row-checkbox" style="cursor: pointer;" />
+                        </td>
+                        <td>@r.Auto?.Marca @r.Auto?.Modelo (@r.Auto?.Placa)</td>
+                        <td>@r.Conductor?.Nombre @r.Conductor?.Apellido</td>
+                        <td>@r.FechaInicio.ToString("g")</td>
+                        <td>@r.FechaFin.ToString("g")</td>
+                        <td class="table-actions">
+                            <a asp-page="./Edit" asp-route-id="@r.Id" class="action-btn" title="Editar">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </a>
+                            <a asp-page="./Details" asp-route-id="@r.Id" class="action-btn" title="Ver detalles">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@r.Id" class="action-btn delete" title="Eliminar">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
+    <div id="noResults" class="empty" style="display: none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <p>No se encontraron resultados</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Intenta con otros términos de búsqueda</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+        const btnDescargarPdf = document.getElementById('btnDescargarPdf');
+        const countSelected = document.getElementById('countSelected');
+        const pdfForm = document.getElementById('pdfForm');
+
+        function updateDownloadButton() {
+            const checkedCount = document.querySelectorAll('.row-checkbox:checked').length;
+            countSelected.textContent = checkedCount;
+            btnDescargarPdf.style.display = checkedCount > 0 ? 'inline-flex' : 'none';
+        }
+
+        selectAllCheckbox.addEventListener('change', function() {
+            rowCheckboxes.forEach(cb => {
+                if (cb.closest('tr').style.display !== 'none') {
+                    cb.checked = this.checked;
+                }
+            });
+            updateDownloadButton();
+        });
+
+        rowCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateDownloadButton);
+        });
+
+        btnDescargarPdf.addEventListener('click', function() {
+            pdfForm.submit();
+        });
+
+        // Buscador
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('reservasTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+
+            for (let row of rows) {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchValue)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                    const checkbox = row.querySelector('.row-checkbox');
+                    if (checkbox) checkbox.checked = false;
+                }
+            }
+
+            if (visibleCount === 0) {
+                table.style.display = 'none';
+                noResults.style.display = 'flex';
+            } else {
+                table.style.display = 'table';
+                noResults.style.display = 'none';
+            }
+
+            selectAllCheckbox.checked = false;
+            updateDownloadButton();
+        });
+    </script>
+}

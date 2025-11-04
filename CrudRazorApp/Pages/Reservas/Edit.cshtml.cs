@@ -16,19 +16,23 @@ namespace CrudRazorApp.Pages.Reservas
         [BindProperty]
         public ReservaAuto Reserva { get; set; } = new ReservaAuto();
 
-        public SelectList AutosList { get; set; } = null!;
-        public SelectList ConductoresList { get; set; } = null!;
+        public SelectList AutosList { get; set; }
+        public SelectList ConductoresList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null) return NotFound();
 
-            var reserva = await _context.ReservasAuto.FindAsync(id);
-            if (reserva == null) return NotFound();
+            Reserva = await _context.ReservasAuto
+                .Include(r => r.Auto)
+                .Include(r => r.Conductor)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
-            Reserva = reserva;
+            if (Reserva == null) return NotFound();
 
-            await LoadSelectLists();
+            AutosList = new SelectList(await _context.Autos.AsNoTracking().ToListAsync(), "Id", "Placa", Reserva.AutoId);
+            ConductoresList = new SelectList(await _context.Conductores.AsNoTracking().ToListAsync(), "Id", "Nombre", Reserva.ConductorId);
+
             return Page();
         }
 
@@ -36,11 +40,12 @@ namespace CrudRazorApp.Pages.Reservas
         {
             if (!ModelState.IsValid)
             {
-                await LoadSelectLists();
+                AutosList = new SelectList(await _context.Autos.AsNoTracking().ToListAsync(), "Id", "Placa", Reserva.AutoId);
+                ConductoresList = new SelectList(await _context.Conductores.AsNoTracking().ToListAsync(), "Id", "Nombre", Reserva.ConductorId);
                 return Page();
             }
 
-            // Verificar solapamientos de reservas para el mismo auto
+            // Verificar solapamientos de reservas
             var overlap = await _context.ReservasAuto.AnyAsync(r =>
                 r.AutoId == Reserva.AutoId &&
                 r.Id != Reserva.Id &&
@@ -50,7 +55,8 @@ namespace CrudRazorApp.Pages.Reservas
             if (overlap)
             {
                 ModelState.AddModelError(string.Empty, "El auto ya está reservado en las fechas seleccionadas.");
-                await LoadSelectLists();
+                AutosList = new SelectList(await _context.Autos.AsNoTracking().ToListAsync(), "Id", "Placa", Reserva.AutoId);
+                ConductoresList = new SelectList(await _context.Conductores.AsNoTracking().ToListAsync(), "Id", "Nombre", Reserva.ConductorId);
                 return Page();
             }
 
@@ -69,15 +75,6 @@ namespace CrudRazorApp.Pages.Reservas
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private async Task LoadSelectLists()
-        {
-            var autos = await _context.Autos.AsNoTracking().ToListAsync();
-            var conductores = await _context.Conductores.AsNoTracking().ToListAsync();
-
-            AutosList = new SelectList(autos, "Id", "Placa");
-            ConductoresList = new SelectList(conductores, "Id", "Nombre");
         }
 
         private async Task<bool> ReservaExists(int id)

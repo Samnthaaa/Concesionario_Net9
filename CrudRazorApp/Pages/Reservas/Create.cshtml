@@ -5,49 +5,76 @@
     ViewData["Title"] = "Crear Reserva";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="success-message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <p>@TempData["SuccessMessage"]</p>
+    </div>
+}
+
+<div class="back-button-container">
+    <a asp-page="./Index" class="back-button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver al listado
+    </a>
+</div>
+
 <h1 class="page-title">Registrar una Reserva Nueva</h1>
 <p class="page-subtitle">Rellena los siguientes campos para agendar una reserva.</p>
 
-<div class="card" style="max-width: 800px;">
-    <form method="post">
-        
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
-        <div class="form-layout">
+<div class="form-container">
+    <div class="form-card">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Reserva.AutoId">Auto</label>
-                <select asp-for="Reserva.AutoId" class="form-control" asp-items="Model.AutosList"></select>
-                <span asp-validation-for="Reserva.AutoId" class="text-danger"></span>
+            <div class="form-layout">
+                <div class="form-group">
+                    <label asp-for="Reserva.AutoId">Auto</label>
+                    <select asp-for="Reserva.AutoId" class="form-control" asp-items="Model.AutosList"></select>
+                    <span asp-validation-for="Reserva.AutoId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Reserva.ConductorId">Conductor</label>
+                    <select asp-for="Reserva.ConductorId" class="form-control" asp-items="Model.ConductoresList"></select>
+                    <span asp-validation-for="Reserva.ConductorId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Reserva.FechaInicio">Fecha de Inicio</label>
+                    <input asp-for="Reserva.FechaInicio" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="Reserva.FechaInicio" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Reserva.FechaFin">Fecha de Fin</label>
+                    <input asp-for="Reserva.FechaFin" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="Reserva.FechaFin" class="text-danger"></span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Reserva.ConductorId">Conductor</label>
-                <select asp-for="Reserva.ConductorId" class="form-control" asp-items="Model.ConductoresList"></select>
-                <span asp-validation-for="Reserva.ConductorId" class="text-danger"></span>
+            <div class="actions" style="margin-top: 2rem;">
+                <button type="submit" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Reservar
+                </button>
+                <a class="btn-secondary" asp-page="./Index">Cancelar</a>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Reserva.FechaInicio">Fecha de Inicio</label>
-                <input asp-for="Reserva.FechaInicio" class="form-control" type="datetime-local" />
-                <span asp-validation-for="Reserva.FechaInicio" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Reserva.FechaFin">Fecha de Fin</label>
-                <input asp-for="Reserva.FechaFin" class="form-control" type="datetime-local" />
-                <span asp-validation-for="Reserva.FechaFin" class="text-danger"></span>
-            </div>
-
-        </div>
-
-        <div class="actions" style="margin-top: 2rem;">
-            <button type="submit" class="btn-primary">Reservar</button>
-            <a class="btn-secondary" asp-page="./Index">Cancelar</a>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

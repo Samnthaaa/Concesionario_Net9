@@ -1,4 +1,5 @@
 using CrudRazorApp.Data;
+using CrudRazorApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,9 @@ builder.Services.AddRazorPages();
 // Registrar DbContext (usa la connection string en appsettings.json)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registrar PdfService
+builder.Services.AddScoped<PdfService>();
 
 var app = builder.Build();
 

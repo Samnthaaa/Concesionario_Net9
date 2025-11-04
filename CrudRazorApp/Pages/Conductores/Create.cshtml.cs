@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,10 +19,21 @@ namespace CrudRazorApp.Pages.Conductores
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
-            _context.Conductores.Add(Conductor);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            try
+            {
+                _context.Conductores.Add(Conductor);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index", new { success = true, message = $"El conductor {Conductor.Nombre} {Conductor.Apellido} se registró exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("./Index", new { error = true, message = "No se pudo registrar el conductor. Intenta de nuevo." });
+            }
         }
     }
 }

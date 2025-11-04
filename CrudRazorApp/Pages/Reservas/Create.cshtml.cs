@@ -25,7 +25,7 @@ namespace CrudRazorApp.Pages.Reservas
             // Establecer la fecha de hoy como fecha de inicio (con hora actual)
             Reserva.FechaInicio = DateTime.Now;
 
-            // Establecer la fecha de fin como un día después (puedes ajustar esto)
+            // Establecer la fecha de fin como un día después
             Reserva.FechaFin = DateTime.Now.AddDays(1);
 
             AutosList = new SelectList(await _context.Autos.AsNoTracking().ToListAsync(), "Id", "Placa");
@@ -41,24 +41,33 @@ namespace CrudRazorApp.Pages.Reservas
                 return Page();
             }
 
-            // Opcional: verificar solapamientos de reservas para el mismo auto
-            var overlap = await _context.ReservasAuto.AnyAsync(r =>
-                r.AutoId == Reserva.AutoId &&
-                r.Id != Reserva.Id &&
-                r.FechaInicio < Reserva.FechaFin &&
-                Reserva.FechaInicio < r.FechaFin);
-
-            if (overlap)
+            try
             {
-                ModelState.AddModelError(string.Empty, "El auto ya está reservado en las fechas seleccionadas.");
-                AutosList = new SelectList(await _context.Autos.AsNoTracking().ToListAsync(), "Id", "Placa");
-                ConductoresList = new SelectList(await _context.Conductores.AsNoTracking().ToListAsync(), "Id", "Nombre");
-                return Page();
-            }
+                // Verificar solapamientos de reservas para el mismo auto
+                var overlap = await _context.ReservasAuto.AnyAsync(r =>
+                    r.AutoId == Reserva.AutoId &&
+                    r.Id != Reserva.Id &&
+                    r.FechaInicio < Reserva.FechaFin &&
+                    Reserva.FechaInicio < r.FechaFin);
 
-            _context.ReservasAuto.Add(Reserva);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+                if (overlap)
+                {
+                    ModelState.AddModelError(string.Empty, "El auto ya está reservado en las fechas seleccionadas.");
+                    AutosList = new SelectList(await _context.Autos.AsNoTracking().ToListAsync(), "Id", "Placa");
+                    ConductoresList = new SelectList(await _context.Conductores.AsNoTracking().ToListAsync(), "Id", "Nombre");
+                    return Page();
+                }
+
+                _context.ReservasAuto.Add(Reserva);
+                await _context.SaveChangesAsync();
+
+                var auto = await _context.Autos.FindAsync(Reserva.AutoId);
+                return RedirectToPage("./Index", new { success = true, message = $"Reserva para {auto?.Marca} {auto?.Modelo} creada exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("./Index", new { error = true, message = "No se pudo crear la reserva. Intenta de nuevo." });
+            }
         }
     }
 }

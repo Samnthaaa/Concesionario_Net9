@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Concesionario</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/messages.css" />
 </head>
 <body>
     <header>
@@ -37,6 +38,18 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/shared.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        // Auto-ocultar alertas después de 5 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var alerts = document.getElementsByClassName('alert');
+                for(var i = 0; i < alerts.length; i++) {
+                    alerts[i].style.display = 'none';
+                }
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
