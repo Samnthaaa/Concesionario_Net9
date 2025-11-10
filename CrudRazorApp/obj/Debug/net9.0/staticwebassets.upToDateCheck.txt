@@ -1,0 +1,7 @@
+wwwroot\css\messages.css
+wwwroot\css\site.css
+wwwroot\images\hero.jpg
+wwwroot\js\shared.js
+C:\Users\range\Desktop\Sam\Plantilla_NET_CORE (1)\CrudRazorApp\wwwroot\css\messages.css
+C:\Users\range\Desktop\Sam\Plantilla_NET_CORE (1)\CrudRazorApp\wwwroot\css\site.css
+C:\Users\range\Desktop\Sam\Plantilla_NET_CORE (1)\CrudRazorApp\wwwroot\js\shared.js

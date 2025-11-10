@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Eliminar Auto";
+    var hasRelatedRecords = Model.ReservasCount > 0 || Model.MantenimientosCount > 0 || Model.ReportesCount > 0;
 }
 
 <div class="back-button-container">
@@ -31,6 +32,39 @@
             <p>Se eliminará toda la información relacionada con <strong>@Model.Auto.Marca @Model.Auto.Modelo</strong>.</p>
         </div>
 
+        @if (hasRelatedRecords)
+        {
+            <div style="background-color: #FFF4E6; border: 2px solid #F59E0B; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: start; gap: 1rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" style="flex-shrink: 0;">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <div>
+                        <h4 style="color: #92400E; margin: 0 0 0.5rem 0;">⚠️ Este auto tiene registros asociados</h4>
+                        <ul style="color: #78350F; margin: 0; padding-left: 1.25rem;">
+                            @if (Model.ReservasCount > 0)
+                            {
+                                <li><strong>@Model.ReservasCount</strong> reserva(s)</li>
+                            }
+                            @if (Model.MantenimientosCount > 0)
+                            {
+                                <li><strong>@Model.MantenimientosCount</strong> mantenimiento(s)</li>
+                            }
+                            @if (Model.ReportesCount > 0)
+                            {
+                                <li><strong>@Model.ReportesCount</strong> reporte(s)</li>
+                            }
+                        </ul>
+                        <p style="color: #92400E; margin: 0.75rem 0 0 0; font-size: 0.9rem;">
+                            No podrás eliminar este auto hasta que elimines primero estos registros asociados.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
         <div class="details-summary">
             <div class="summary-item">
                 <span class="summary-label">Marca:</span>
@@ -56,13 +90,26 @@
 
         <form method="post">
             <div class="actions" style="margin-top: 2rem;">
-                <button type="submit" class="btn-danger">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                    Confirmar Eliminación
-                </button>
+                @if (hasRelatedRecords)
+                {
+                    <button type="button" disabled class="btn-danger" style="opacity: 0.5; cursor: not-allowed;" title="No se puede eliminar porque tiene registros asociados">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        No se puede eliminar
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" class="btn-danger">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Confirmar Eliminación
+                    </button>
+                }
                 <a asp-page="./Index" class="btn-secondary">Cancelar</a>
             </div>
         </form>
@@ -143,7 +190,7 @@ else
         gap: 0.5rem;
     }
 
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             transform: translateY(-3px);
             background-color: #B91C1C;
             box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);

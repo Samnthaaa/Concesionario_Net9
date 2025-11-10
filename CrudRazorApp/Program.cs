@@ -2,8 +2,6 @@ using CrudRazorApp.Data;
 using CrudRazorApp.Services;
 using Microsoft.EntityFrameworkCore;
 
-//ESte es un cambio de prubea
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
