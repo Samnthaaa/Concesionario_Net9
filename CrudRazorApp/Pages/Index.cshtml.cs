@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CrudRazorApp.Data;
@@ -8,6 +9,7 @@ using CrudRazorApp.Models;
 
 namespace CrudRazorApp.Pages
 {
+    [Authorize] // PROTEGER LA PÁGINA
     public class IndexModel : PageModel
     {
         private readonly AppDbContext _context;

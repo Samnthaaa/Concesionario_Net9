@@ -2,7 +2,7 @@
 @model CrudRazorApp.Pages.Autos.CreateModel
 
 @{
-    ViewData["Title"] = "Crear Auto";
+    ViewData["Title"] = "Registrar Auto";
 }
 
 <div class="back-button-container">
@@ -15,57 +15,44 @@
     </a>
 </div>
 
-<h1 class="page-title">Registrar un Auto Nuevo</h1>
-<p class="page-subtitle">Rellena los siguientes campos para añadir un vehículo a la flota.</p>
+<h1 class="page-title">Registrar Nuevo Auto</h1>
+<p class="page-subtitle">Complete la información del vehículo.</p>
 
-<div class="form-container">
-    <div class="form-card">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="card">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 1.5rem;"></div>
 
-            <div class="form-layout">
-                <div class="form-group">
-                    <label asp-for="Auto.Marca"></label>
-                    <input asp-for="Auto.Marca" class="form-control" />
-                    <span asp-validation-for="Auto.Marca" class="text-danger"></span>
-                </div>
+        <div class="form-group">
+            <label asp-for="Auto.Marca" class="form-label"></label>
+            <input asp-for="Auto.Marca" class="form-control" />
+            <span asp-validation-for="Auto.Marca" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Modelo" class="form-label"></label>
+            <input asp-for="Auto.Modelo" class="form-control" />
+            <span asp-validation-for="Auto.Modelo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Anio" class="form-label">Año</label>
+            <input asp-for="Auto.Anio" class="form-control" type="number" />
+            <span asp-validation-for="Auto.Anio" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Color" class="form-label"></label>
+            <input asp-for="Auto.Color" class="form-control" />
+            <span asp-validation-for="Auto.Color" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Placa" class="form-label"></label>
+            <input asp-for="Auto.Placa" class="form-control" />
+            <span asp-validation-for="Auto.Placa" class="text-danger"></span>
+        </div>
 
-                <div class="form-group">
-                    <label asp-for="Auto.Modelo"></label>
-                    <input asp-for="Auto.Modelo" class="form-control" />
-                    <span asp-validation-for="Auto.Modelo" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Auto.Anio">Año</label>
-                    <input asp-for="Auto.Anio" class="form-control" type="number" />
-                    <span asp-validation-for="Auto.Anio" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Auto.Color"></label>
-                    <input asp-for="Auto.Color" class="form-control" />
-                    <span asp-validation-for="Auto.Color" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Auto.Placa"></label>
-                    <input asp-for="Auto.Placa" class="form-control" />
-                    <span asp-validation-for="Auto.Placa" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="actions" style="margin-top: 2rem;">
-                <button type="submit" class="btn-primary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Guardar Vehículo
-                </button>
-                <a class="btn-secondary" asp-page="./Index">Cancelar</a>
-            </div>
-        </form>
-    </div>
+        <div class="actions">
+            <button type="submit" class="btn-primary">Guardar Auto</button>
+            <a asp-page="Index" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

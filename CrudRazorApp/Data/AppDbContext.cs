@@ -12,6 +12,7 @@ namespace CrudRazorApp.Data
         public DbSet<ReservaAuto> ReservasAuto { get; set; }
         public DbSet<Mantenimiento> Mantenimientos { get; set; }
         public DbSet<ReporteVehiculo> ReportesVehiculo { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; } // NUEVO
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,24 +24,28 @@ namespace CrudRazorApp.Data
             modelBuilder.Entity<ReservaAuto>().ToTable("ReservaAuto");
             modelBuilder.Entity<Mantenimiento>().ToTable("Mantenimiento");
             modelBuilder.Entity<ReporteVehiculo>().ToTable("ReporteVehiculo");
+            modelBuilder.Entity<Usuario>().ToTable("Usuario"); // NUEVO
 
             // Auto.id es IDENTITY
             modelBuilder.Entity<Auto>().Property(a => a.Id).ValueGeneratedOnAdd();
 
-            // ============================================
-            // RELACIONES CON RESTRICT
-            // ============================================
-            // Esto evita el cascade delete automático.
-            // Si intentas eliminar un Auto/Conductor que tiene reservas,
-            // recibirás un error y deberás eliminar las reservas primero.
+            // Usuario - Configuración adicional
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
 
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            // RELACIONES CON RESTRICT
             // ReservaAuto -> Auto (RESTRICT)
             modelBuilder.Entity<ReservaAuto>()
                 .HasOne(r => r.Auto)
                 .WithMany(a => a.Reservas)
                 .HasForeignKey(r => r.AutoId)
                 .HasConstraintName("FK_ReservaAuto_Auto")
-                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict
+                .OnDelete(DeleteBehavior.Restrict);
 
             // ReservaAuto -> Conductor (RESTRICT)
             modelBuilder.Entity<ReservaAuto>()
@@ -48,28 +53,28 @@ namespace CrudRazorApp.Data
                 .WithMany(c => c.Reservas)
                 .HasForeignKey(r => r.ConductorId)
                 .HasConstraintName("FK_ReservaAuto_Conductor")
-                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Mantenimiento -> Auto (RESTRICT)
             modelBuilder.Entity<Mantenimiento>()
                 .HasOne(m => m.Auto)
                 .WithMany(a => a.Mantenimientos)
                 .HasForeignKey(m => m.AutoId)
-                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Mantenimiento -> Conductor (RESTRICT)
             modelBuilder.Entity<Mantenimiento>()
                 .HasOne(m => m.Conductor)
                 .WithMany(c => c.Mantenimientos)
                 .HasForeignKey(m => m.ConductorId)
-                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict
+                .OnDelete(DeleteBehavior.Restrict);
 
             // ReporteVehiculo -> Auto (RESTRICT)
             modelBuilder.Entity<ReporteVehiculo>()
                 .HasOne(rv => rv.Auto)
                 .WithMany(a => a.ReportesVehiculo)
                 .HasForeignKey(rv => rv.AutoId)
-                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -2,7 +2,7 @@
 @model CrudRazorApp.Pages.Conductores.CreateModel
 
 @{
-    ViewData["Title"] = "Crear Conductor";
+    ViewData["Title"] = "Registrar Conductor";
 }
 
 <div class="back-button-container">
@@ -15,63 +15,54 @@
     </a>
 </div>
 
-<h1 class="page-title">Registrar un Conductor Nuevo</h1>
-<p class="page-subtitle">Rellena los siguientes campos para añadir un conductor al sistema.</p>
+<h1 class="page-title">Registrar Nuevo Conductor</h1>
+<p class="page-subtitle">Complete la información del conductor.</p>
 
-<div class="form-container">
-    <div class="form-card">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="card">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 1.5rem;"></div>
 
-            <div class="form-layout">
-                <div class="form-group">
-                    <label asp-for="Conductor.Nombre"></label>
-                    <input asp-for="Conductor.Nombre" class="form-control" />
-                    <span asp-validation-for="Conductor.Nombre" class="text-danger"></span>
-                </div>
+        <div class="form-group">
+            <label asp-for="Conductor.Nombre" class="form-label"></label>
+            <input asp-for="Conductor.Nombre" class="form-control" />
+            <span asp-validation-for="Conductor.Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Conductor.Apellido" class="form-label"></label>
+            <input asp-for="Conductor.Apellido" class="form-control" />
+            <span asp-validation-for="Conductor.Apellido" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Conductor.FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+            <input asp-for="Conductor.FechaNacimiento" class="form-control" type="date" />
+            <span asp-validation-for="Conductor.FechaNacimiento" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Conductor.Telefono" class="form-label">Teléfono</label>
+            <input asp-for="Conductor.Telefono" class="form-control" type="tel" />
+            <span asp-validation-for="Conductor.Telefono" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Conductor.Email" class="form-label"></label>
+            <input asp-for="Conductor.Email" class="form-control" type="email" />
+            <span asp-validation-for="Conductor.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Conductor.Licencia" class="form-label"></label>
+            <input asp-for="Conductor.Licencia" class="form-control" />
+            <span asp-validation-for="Conductor.Licencia" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Conductor.FechaContratacion" class="form-label">Fecha de Contratación</label>
+            <input asp-for="Conductor.FechaContratacion" class="form-control" type="date" />
+            <span asp-validation-for="Conductor.FechaContratacion" class="text-danger"></span>
+        </div>
 
-                <div class="form-group">
-                    <label asp-for="Conductor.Apellido"></label>
-                    <input asp-for="Conductor.Apellido" class="form-control" />
-                    <span asp-validation-for="Conductor.Apellido" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Conductor.FechaNacimiento">Fecha de Nacimiento</label>
-                    <input asp-for="Conductor.FechaNacimiento" class="form-control" type="date" />
-                    <span asp-validation-for="Conductor.FechaNacimiento" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Conductor.Telefono">Teléfono</label>
-                    <input asp-for="Conductor.Telefono" class="form-control" type="tel" />
-                    <span asp-validation-for="Conductor.Telefono" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Conductor.Email"></label>
-                    <input asp-for="Conductor.Email" class="form-control" type="email" />
-                    <span asp-validation-for="Conductor.Email" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Conductor.Licencia">Número de Licencia</label>
-                    <input asp-for="Conductor.Licencia" class="form-control" />
-                    <span asp-validation-for="Conductor.Licencia" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="actions" style="margin-top: 2rem;">
-                <button type="submit" class="btn-primary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Guardar Conductor
-                </button>
-                <a class="btn-secondary" asp-page="./Index">Cancelar</a>
-            </div>
-        </form>
-    </div>
+        <div class="actions">
+            <button type="submit" class="btn-primary">Guardar Conductor</button>
+            <a asp-page="Index" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

@@ -798,3 +798,77 @@ nav {
         grid-template-columns: 1fr;
     }
 }
+
+
+.card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 2rem 2.5rem 2.5rem 2.5rem; /* Mas padding abajo */
+    max-width: 700px; /* Ancho máximo para formularios */
+    margin: 2rem 0; /* Separación (en lugar de 'auto' para que respete el 'back-button') */
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- Estructura de Formulario Vertical --- */
+
+.form-group {
+    margin-bottom: 1.5rem; /* Espacio entre campos */
+}
+
+.form-label {
+    display: block; /* Para que esté arriba del input */
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+    /* Estilo para <select> */
+    .form-control select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 3rem; /* Espacio para la flecha */
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+/* Mensaje de validación */
+.text-danger {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: #cb3c3c; /* Mismo rojo que el delete */
+}
+
+/* --- Contenedor de Acciones --- */
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start; /* Alinear botones a la izquierda */
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}

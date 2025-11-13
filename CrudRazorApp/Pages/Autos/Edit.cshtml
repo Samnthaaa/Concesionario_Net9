@@ -16,56 +16,43 @@
 </div>
 
 <h1 class="page-title">Editar Auto</h1>
-<p class="page-subtitle">Actualiza los detalles del vehículo.</p>
+<p class="page-subtitle">Actualice la información del vehículo.</p>
 
-<div class="card" style="max-width: 800px;">
+
+<div class="card">
     <form method="post">
         <input type="hidden" asp-for="Auto.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 1.5rem;"></div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="form-layout">
-
-            <div class="form-group">
-                <label asp-for="Auto.Marca"></label>
-                <input asp-for="Auto.Marca" class="form-control" />
-                <span asp-validation-for="Auto.Marca" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Auto.Modelo"></label>
-                <input asp-for="Auto.Modelo" class="form-control" />
-                <span asp-validation-for="Auto.Modelo" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Auto.Anio">Año</label>
-                <input asp-for="Auto.Anio" class="form-control" type="number" />
-                <span asp-validation-for="Auto.Anio" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Auto.Color"></label>
-                <input asp-for="Auto.Color" class="form-control" />
-                <span asp-validation-for="Auto.Color" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Auto.Placa"></label>
-                <input asp-for="Auto.Placa" class="form-control" />
-                <span asp-validation-for="Auto.Placa" class="text-danger"></span>
-            </div>
-
+        <div class="form-group">
+            <label asp-for="Auto.Marca" class="form-label"></label>
+            <input asp-for="Auto.Marca" class="form-control" />
+            <span asp-validation-for="Auto.Marca" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Modelo" class="form-label"></label>
+            <input asp-for="Auto.Modelo" class="form-control" />
+            <span asp-validation-for="Auto.Modelo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Anio" class="form-label">Año</label>
+            <input asp-for="Auto.Anio" class="form-control" type="number" />
+            <span asp-validation-for="Auto.Anio" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Color" class="form-label"></label>
+            <input asp-for="Auto.Color" class="form-control" />
+            <span asp-validation-for="Auto.Color" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auto.Placa" class="form-label"></label>
+            <input asp-for="Auto.Placa" class="form-control" />
+            <span asp-validation-for="Auto.Placa" class="text-danger"></span>
         </div>
 
-        <div class="actions" style="margin-top: 2rem;">
-            <button type="submit" class="btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                Guardar Cambios
-            </button>
-            <a class="btn-secondary" asp-page="./Index">Cancelar</a>
+        <div class="actions">
+            <button type="submit" class="btn-primary">Actualizar Auto</button>
+            <a asp-page="Index" class="btn-secondary">Cancelar</a>
         </div>
     </form>
 </div>
