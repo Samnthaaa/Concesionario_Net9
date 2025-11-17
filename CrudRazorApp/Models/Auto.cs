@@ -9,7 +9,7 @@ namespace CrudRazorApp.Models
     {
         [Key]
         [Column("id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // la tabla Auto tiene IDENTITY según tu script
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Column("marca")]
@@ -33,7 +33,5 @@ namespace CrudRazorApp.Models
 
         // Navegación
         public ICollection<ReservaAuto>? Reservas { get; set; }
-        public ICollection<Mantenimiento>? Mantenimientos { get; set; }
-        public ICollection<ReporteVehiculo>? ReportesVehiculo { get; set; }
     }
 }

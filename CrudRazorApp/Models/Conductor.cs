@@ -39,6 +39,5 @@ namespace CrudRazorApp.Models
 
         // Navegación
         public ICollection<ReservaAuto>? Reservas { get; set; }
-        public ICollection<Mantenimiento>? Mantenimientos { get; set; }
     }
 }

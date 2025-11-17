@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore; // Asegúrate de tener este using
+using Microsoft.EntityFrameworkCore;
 using CrudRazorApp.Data;
 using CrudRazorApp.Models;
 
@@ -15,21 +15,21 @@ namespace CrudRazorApp.Pages.Conductores
         [BindProperty]
         public Conductor? Conductor { get; set; }
 
-        // NUEVO: Propiedades para contar registros relacionados
         public int ReservasCount { get; set; }
-        public int MantenimientosCount { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null) return NotFound();
 
-            Conductor = await _context.Conductores.FindAsync(id);
+            Conductor = await _context.Conductores
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (Conductor == null) return NotFound();
 
-            // NUEVO: Contar registros relacionados
-            ReservasCount = await _context.ReservasAuto.CountAsync(r => r.ConductorId == id);
-            MantenimientosCount = await _context.Mantenimientos.CountAsync(m => m.ConductorId == id);
+            // Contar registros relacionados
+            ReservasCount = await _context.ReservasAuto
+                .CountAsync(r => r.ConductorId == id);
 
             return Page();
         }
@@ -38,45 +38,24 @@ namespace CrudRazorApp.Pages.Conductores
         {
             if (id == null) return NotFound();
 
-            // MODIFICADO: Se envuelve la lógica en un try-catch y se añade validación
             var conductor = await _context.Conductores.FindAsync(id);
-            if (conductor == null) return NotFound();
 
-            try
+            if (conductor != null)
             {
-                // NUEVO: Validar si existen registros relacionados
-                var hasRelated = await _context.ReservasAuto.AnyAsync(r => r.ConductorId == id) ||
-                                 await _context.Mantenimientos.AnyAsync(m => m.ConductorId == id);
+                // Verificar si tiene registros relacionados
+                var hasReservas = await _context.ReservasAuto.AnyAsync(r => r.ConductorId == id);
 
-                if (hasRelated)
+                if (hasReservas)
                 {
-                    // Si tiene, redirigir con error, igual que en Autos
-                    return RedirectToPage("./Index", new
-                    {
-                        error = true,
-                        message = "No se puede eliminar el conductor porque tiene reservas o mantenimientos asociados. Elimina primero esos registros."
-                    });
+                    TempData["ErrorMessage"] = "No se puede eliminar el conductor porque tiene reservas asociadas.";
+                    return RedirectToPage("./Index");
                 }
 
                 _context.Conductores.Remove(conductor);
                 await _context.SaveChangesAsync();
+            }
 
-                // NUEVO: Redirigir con mensaje de éxito
-                return RedirectToPage("./Index", new
-                {
-                    success = true,
-                    message = $"Conductor {conductor.Nombre} {conductor.Apellido} eliminado exitosamente."
-                });
-            }
-            catch (DbUpdateException)
-            {
-                // NUEVO: Manejo de error por si acaso (ej. restricción de BD)
-                return RedirectToPage("./Index", new
-                {
-                    error = true,
-                    message = "Error al eliminar el conductor. Verifica que no tenga registros relacionados."
-                });
-            }
+            return RedirectToPage("./Index");
         }
     }
 }

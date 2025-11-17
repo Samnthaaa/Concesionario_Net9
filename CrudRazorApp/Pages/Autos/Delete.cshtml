@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Eliminar Auto";
-    var hasRelatedRecords = Model.ReservasCount > 0 || Model.MantenimientosCount > 0 || Model.ReportesCount > 0;
+    var hasRelatedRecords = Model.ReservasCount > 0;
 }
 
 <div class="back-button-container">
@@ -44,18 +44,7 @@
                     <div>
                         <h4 style="color: #92400E; margin: 0 0 0.5rem 0;">⚠️ Este auto tiene registros asociados</h4>
                         <ul style="color: #78350F; margin: 0; padding-left: 1.25rem;">
-                            @if (Model.ReservasCount > 0)
-                            {
-                                <li><strong>@Model.ReservasCount</strong> reserva(s)</li>
-                            }
-                            @if (Model.MantenimientosCount > 0)
-                            {
-                                <li><strong>@Model.MantenimientosCount</strong> mantenimiento(s)</li>
-                            }
-                            @if (Model.ReportesCount > 0)
-                            {
-                                <li><strong>@Model.ReportesCount</strong> reporte(s)</li>
-                            }
+                            <li><strong>@Model.ReservasCount</strong> reserva(s)</li>
                         </ul>
                         <p style="color: #92400E; margin: 0.75rem 0 0 0; font-size: 0.9rem;">
                             No podrás eliminar este auto hasta que elimines primero estos registros asociados.
